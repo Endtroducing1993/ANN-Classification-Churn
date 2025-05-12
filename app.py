@@ -8,14 +8,14 @@ import pickle
 
 model=tf.keras.models.load_model('ANN Classification/model.h5')
 
-with open('ANN Classification/label_encoder_gender.pkl','rb') as file:
+with open('label_encoder_gender.pkl','rb') as file:
     label_encoder_gender=pickle.load(file)
 
 
-with open('ANN Classification/onehot_encoder_geo.pkl','rb') as file:
+with open('onehot_encoder_geo.pkl','rb') as file:
     onehot_encoder_geo=pickle.load(file)
 
-with open('ANN Classification/scaler.pkl','rb') as file:
+with open('scaler.pkl','rb') as file:
     scaler=pickle.load(file) 
 
 
@@ -34,7 +34,7 @@ num_of_products=st.slider('Num of products',1,4)
 has_cr_card=st.selectbox('Has Credit Card',[0,1])
 is_active_member=st.selectbox('Is Active Member',[0,1])
 
-# prepare the input data
+
 input_data=pd.DataFrame({
     'CreditScore':[credit_score],
     'Gender': [label_encoder_gender.transform([gender])[0]],
@@ -57,8 +57,8 @@ input_data_scaled=scaler.transform(input_data)
 prediction=model.predict(input_data_scaled)
 prediction_proba=prediction[0][0]
 
-s = f"{prediction_proba:.3f}"           # -> "0.04"
-# Or
+s = f"{prediction_proba:.3f}" 
+
 s = format(prediction_proba, ".3f")  
 
 st.write(f'Churn prediction is {s} ')
